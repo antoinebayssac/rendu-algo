@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+
+    <title>Jeux de Nim</title>
+
+</head>
+<body>
+
+    <div class="contenu">
+        <h1>Jeu des allumettes</h1>
+        <div id="regle"><strong>Règles du jeux</strong><br/><p>Le jeux est un jeux qui se joue à 2 joueurs. 
+            Le but étant de choisir le nombre d'allumettes de départ. <br>Puis, rour à tour, chaque joueur prend un nombre d'allumettes compris entre 1 et 3. <br>Le gagnant est celui qui prend la dernière allumette. <br/> Bonne Chance !
+    </div>
+       
+            <h4 id="joueur"></h4>
+        <div id="allumImg">
+            Pour commencer, choisissez un nombre d'allumettes :
+        </div>
+         
+        <p id="allumefeu">
+            <table class="center">
+                <div class="feu">
+                    <td>
+                    <img src="img/jeux.jpg" alt="flamme"/>
+                    </td>
+                </div>
+            </table>
+        </p>
+       
+        <div id="ini">
+            <button type="button" onclick="flam('feu','allumImg','nombre')">
+                Initialiser
+            </button>
+            <label>
+                le jeu avec
+            </label>
+          <input type="text" id="nombre" name="nombre" size="5" value=""/>
+            <label>allumette(s)</label>
+            <span id="Erreur1"></span>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        var nombre=0;
+        var jeux=true;
+        
+        function Byid(id){
+         return document.getElementById(id);
+        }
+        
+        function valuede(id){
+         return Byid(id).value;
+        }
+        
+        function flam(id,id2,id3){
+         var elementfeux=Byid(id);
+         var Erreur1=Byid("Erreur1");
+         nombre=valuede(id3);
+          
+         if(nombre<=3 || isNaN(nombre)){
+           Erreur1.innerHTML="Attention ! Entrer un chiffre supérieur à 3 s'il vous plait.";
+           Erreur1.style.color="red";
+         }else{
+           Erreur1.innerHTML="";
+           elementfeux.innerHTML="";
+           for (var i=0; i<nombre;i++){
+             insereimg(id);
+           }
+           ElementJoueur=Byid("joueur");
+           joueur.textContent="Joueurs 1";
+           joueur.style.color="Blue";
+           jeu=true;
+           insereButton(id2);
+           document.getElementById("nombre").value="";
+         }
+        
+        }
+        
+        function insereimg(id){
+         var Element=Byid(id);
+         var Createid=document.createElement("td");
+         var i=document.createElement("IMG");
+         i.setAttribute("src", "img/allumette.png");
+         i.setAttribute("alt","allumette");
+         Createid.appendChild(i);
+         Element.appendChild(Createid);
+        }
+        
+        function insereButton(idb){
+         var Element=Byid(idb);
+         Element.innerHTML="<p><button type='button' onclick='enlever(nombreAllumEnlev)'>Enlever</button> <input type='text' id='nombreAllumEnlev' name='nombreAllumEnlev' size='5' value=''/><label> allumette(s)</label><span id='error2'></span></p><p id='reste'></p>"
+        }
+        
+        
+        function enlever(nombre2){
+         var elementfeux=Byid("feu");
+         var nombreAllumEnlev=parseInt(valuede("nombreAllumEnlev"));
+         var ElementReste=Byid("reste");
+                
+         if(nombreAllumEnlev>3 || nombreAllumEnlev<=0 || isNaN(nombreAllumEnlev)){
+           error2=Byid("error2");
+           error2.textContent=" Entrez un chiffre entre 0 et 3 et inférieur au nombre d\'allumette(s) restante(s) : "+nombre;
+           error2.style.color="red";
+         }else if (nombreAllumEnlev>nombre){
+           error2.textContent=" Entrez un chiffre inférieur au nombre d\'allumette(s) restante(s) : "+nombre;
+           error2.style.color="red";
+         }else{
+           error2.textContent="";
+           jeux=!jeux;
+             if (jeux==true) {
+               joueur.textContent="Le joueur 1 joue";
+             }else{
+               joueur.textContent="Le joueur 2 joue";
+             }
+             for (var i=nombreAllumEnlev-1; i>=0;i--){
+               elementfeux.removeChild(elementfeux.childNodes[i]);
+             } 
+             nombre=nombre-nombreAllumEnlev;
+         }
+        
+         ElementReste.textContent="Il reste "+nombre+" allumette(s) à jouer. Continuez !";
+         document.getElementById("nombreAllumEnlev").value="";
+        
+         if(nombre===0){ 
+           joueur.textContent="";
+           jeux=!jeux;
+           if (jeux==true) {
+               joueur.textContent="Le joueur 1 à gagné !!";
+               joueur.style.color="#blue";
+             }else{
+               joueur.textContent="Le joueur 2 à gagné !!";
+               joueur.style.color="purple";
+             }
+        
+           error2.textContent=" Fin du Jeux";
+             error2.style.color="green";
+         }
+        
+        }
+    </script>
+</body>
+</html>
+    
+ 
+ 
